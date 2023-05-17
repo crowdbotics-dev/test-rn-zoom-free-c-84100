@@ -1,8 +1,9 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-const Button = props => {
-  return <TouchableOpacity onPress={props.onPress}>
+const Button = (props) => {
+  return (
+    <TouchableOpacity onPress={props.onPress}>
       <View style={styles.CardBody}>
         <View style={styles.InnerCard}>
           <View>
@@ -10,7 +11,8 @@ const Button = props => {
           </View>
         </View>
       </View>
-    </TouchableOpacity>;
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -40,4 +42,5 @@ const styles = StyleSheet.create({
     textTransform: "uppercase"
   }
 });
+
 export default Button;

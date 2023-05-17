@@ -3,11 +3,12 @@ import { View, Text, Pressable, SectionList, StyleSheet } from "react-native";
 import { parseMeetingId } from "../../utils";
 import { timezones } from "../../timezones";
 
-const ScheduleMeetingList = props => {
-  const listItem = item => {
-    return <View style={styles.TimeArea}>
+const ScheduleMeetingList = (props) => {
+  const listItem = (item) => {
+    return (
+      <View style={styles.TimeArea}>
         <View style={styles.TimeAndLocation}>
-          <Text style={styles.TimeText}>{"start_time" in item ? new Date(item.start_time).toLocaleString() : "Recurring"}</Text>
+          <Text style={styles.TimeText}>{("start_time" in item) ? new Date(item.start_time).toLocaleString() : "Recurring"}</Text>
           <Text numberOfLines={2} style={styles.LocationText}>{timezones.find(obj => obj.value === item.timezone).label}</Text>
         </View>
         <View style={styles.MeetingDay}>
@@ -22,21 +23,26 @@ const ScheduleMeetingList = props => {
             <Text style={styles.textStyle}>Delete</Text>
           </Pressable>
         </View>
-      </View>;
+      </View>
+    );
   };
-
-  return <SectionList sections={props.upcomingMeetingsList} keyExtractor={(item, index) => item + index} renderItem={({
-    item
-  }) => listItem(item)} renderSectionHeader={({
-    section: {
-      title
-    }
-  }) => <Text style={styles.TitleText}>{title}</Text>} ListEmptyComponent={() => <View style={styles.eTaRxszo}>
+  return (
+    <SectionList
+      sections={props.upcomingMeetingsList}
+      keyExtractor={(item, index) => item + index}
+      renderItem={({ item }) => listItem(item)}
+      renderSectionHeader={({ section: { title } }) => (
+        <Text style={styles.TitleText}>{title}</Text>
+      )}
+      ListEmptyComponent={() => (
+        <View style={{}}>
           <Text style={styles.UpcomingText}>Upcoming Meetings</Text>
           <Text style={styles.NewMeetingText}>The user does not have any upcoming meetings. To schedule a new meeting click Schedule a Meeting.</Text>
-        </View>} />;
+        </View>
+      )}
+    />
+  );
 };
-
 const styles = StyleSheet.create({
   ButtonArea: {
     display: "flex",
@@ -161,7 +167,6 @@ const styles = StyleSheet.create({
     padding: 40,
     textAlign: "center",
     fontSize: 13
-  },
-  eTaRxszo: {}
+  }
 });
 export default ScheduleMeetingList;

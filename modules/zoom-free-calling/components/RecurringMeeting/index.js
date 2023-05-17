@@ -1,11 +1,11 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { View, StyleSheet, Text, Pressable } from "react-native"; // @ts-ignore
-
+import { View, StyleSheet, Text, Pressable } from "react-native";
+// @ts-ignore
 import { RadioButton } from "react-native-paper";
-import DropDownPicker from "react-native-dropdown-picker"; // @ts-ignore
-
-import DatePicker from "react-native-date-picker"; // @ts-ignore
-
+import DropDownPicker from "react-native-dropdown-picker";
+// @ts-ignore
+import DatePicker from "react-native-date-picker";
+// @ts-ignore
 import CheckBox from "@react-native-community/checkbox";
 import Input from "../Input";
 import options from "../../options";
@@ -28,67 +28,49 @@ const RecurringMeeting = ({
   const [openDays, setOpenDays] = useState(false);
   const [openEndDate, setOpenEndDate] = useState(false);
   const [weeklyList, setWeeklyList] = useState(options.initialWeeklyList);
+
   useEffect(() => {
     const tmpRepeatEveryList = [];
-
     if (meetingSchedule.recurrence.recurrence_type === "1") {
       for (let i = 0; i < options.recurrentMeeting.daily; i++) {
-        tmpRepeatEveryList.push({
-          label: (i + 1).toString(),
-          value: (i + 1).toString()
-        });
+        tmpRepeatEveryList.push({ label: (i + 1).toString(), value: (i + 1).toString() });
       }
     } else if (meetingSchedule.recurrence.recurrence_type === "2") {
       for (let i = 0; i < options.recurrentMeeting.weekly; i++) {
-        tmpRepeatEveryList.push({
-          label: (i + 1).toString(),
-          value: (i + 1).toString()
-        });
+        tmpRepeatEveryList.push({ label: (i + 1).toString(), value: (i + 1).toString() });
       }
     } else if (meetingSchedule.recurrence.recurrence_type === "3") {
       for (let i = 0; i < options.recurrentMeeting.monthly; i++) {
-        tmpRepeatEveryList.push({
-          label: (i + 1).toString(),
-          value: (i + 1).toString()
-        });
+        tmpRepeatEveryList.push({ label: (i + 1).toString(), value: (i + 1).toString() });
       }
     }
-
     setRepeatEveryList(tmpRepeatEveryList);
   }, [meetingSchedule.recurrence.recurrence_type]);
+
   useEffect(() => {
     const tmpOccursOnList = [];
-
     for (let i = 0; i < 31; i++) {
-      tmpOccursOnList.push({
-        label: (i + 1).toString(),
-        value: (i + 1).toString()
-      });
+      tmpOccursOnList.push({ label: (i + 1).toString(), value: (i + 1).toString() });
     }
-
     setOccursOnList(tmpOccursOnList);
   }, []);
 
-  const handleWeeklyCheckbox = weekIndex => {
+  const handleWeeklyCheckbox = (weekIndex) => {
     const tmpWeeklyList = JSON.parse(JSON.stringify(weeklyList));
     tmpWeeklyList[weekIndex].isSelected = !tmpWeeklyList[weekIndex].isSelected;
     setWeeklyList(tmpWeeklyList);
     const weeklyDays = tmpWeeklyList.filter(obj => obj.isSelected).map(obj => obj.value);
-    setMeetingSchedule({ ...meetingSchedule,
-      recurrence: { ...meetingSchedule.recurrence,
-        weeklyDays: weeklyDays.toString()
-      }
-    });
+    setMeetingSchedule({ ...meetingSchedule, recurrence: { ...meetingSchedule.recurrence, weeklyDays: weeklyDays.toString() } });
   };
 
-  return <Fragment>
+  return (
+    <Fragment>
       <View style={styles.Dflex}>
-        <CheckBox tintColors={{
-        true: "#24ebde",
-        false: "lightgray"
-      }} value={meetingSchedule.recurring_meeting} onValueChange={newValue => setMeetingSchedule({ ...meetingSchedule,
-        recurring_meeting: newValue
-      })} />
+        <CheckBox
+          tintColors={{ true: "#24ebde", false: "lightgray" }}
+          value={meetingSchedule.recurring_meeting}
+          onValueChange={(newValue) => setMeetingSchedule({ ...meetingSchedule, recurring_meeting: newValue })}
+        />
         <Text style={styles.Mt7}>Recurring meeting</Text>
       </View>
       {meetingSchedule.recurring_meeting && <>
@@ -97,83 +79,129 @@ const RecurringMeeting = ({
             <Text style={styles.RecurrenceText}>Recurrence</Text>
           </View>
           <View style={styles.Wp70}>
-            <DropDownPicker zIndex={20} placeholderStyle={styles.DropDownPlaceholder} style={styles.DropDownPicker} open={openRecurrenceType} value={meetingSchedule.recurrence.recurrence_type} items={recurrenceList} setOpen={setOpenRecurrenceType} setValue={value => setMeetingSchedule({ ...meetingSchedule,
-            recurrence: { ...meetingSchedule.recurrence,
-              recurrence_type: value()
-            }
-          })} setItems={setRecurrenceList} />
+            <DropDownPicker
+              zIndex={20}
+              placeholderStyle={styles.DropDownPlaceholder}
+              style={styles.DropDownPicker}
+              open={openRecurrenceType}
+              value={meetingSchedule.recurrence.recurrence_type}
+              items={recurrenceList}
+              setOpen={setOpenRecurrenceType}
+              setValue={(value) => setMeetingSchedule({ ...meetingSchedule, recurrence: { ...meetingSchedule.recurrence, recurrence_type: value() } })}
+              setItems={setRecurrenceList}
+            />
           </View>
         </View>
-        {meetingSchedule.recurrence.recurrence_type !== "-1" && <View style={styles.RecurrenceArea}>
+        {meetingSchedule.recurrence.recurrence_type !== "-1" &&
+          <View style={styles.RecurrenceArea}>
             <View style={styles.Wp30}>
               <Text style={styles.RepeatText}>Repeat every</Text>
             </View>
             <View style={styles.Wp30}>
-              <DropDownPicker zIndex={19} placeholderStyle={styles.DropDownPlaceholder} style={styles.DropDownPicker} open={openRepeatEvery} value={meetingSchedule.recurrence.repeatEvery} items={repeatEveryList} setOpen={setOpenRepeatEvery} setValue={value => setMeetingSchedule({ ...meetingSchedule,
-            recurrence: { ...meetingSchedule.recurrence,
-              repeatEvery: value()
-            }
-          })} setItems={setRepeatEveryList} />
+              <DropDownPicker
+                zIndex={19}
+                placeholderStyle={styles.DropDownPlaceholder}
+                style={styles.DropDownPicker}
+                open={openRepeatEvery}
+                value={meetingSchedule.recurrence.repeatEvery}
+                items={repeatEveryList}
+                setOpen={setOpenRepeatEvery}
+                setValue={(value) => setMeetingSchedule({ ...meetingSchedule, recurrence: { ...meetingSchedule.recurrence, repeatEvery: value() } })}
+                setItems={setRepeatEveryList}
+              />
             </View>
             <Text style={styles.Ml5}>{meetingSchedule.recurrence.recurrence_type === "2" ? "Week" : "day"}</Text>
-          </View>}
+          </View>
+        }
 
-        {meetingSchedule.recurrence.recurrence_type === "2" && <View style={styles.RecurrenceArea}>
+        {meetingSchedule.recurrence.recurrence_type === "2" &&
+          <View style={styles.RecurrenceArea}>
             <View>
               <Text style={styles.RepeatText}>Occurs on</Text>
             </View>
             <View style={styles.MeetingTypeTwoOccurs}>
-              {weeklyList.map((week, index) => <View style={styles.DalignItem} key={index}>
-                    <CheckBox tintColors={options.checkboxColor} value={week.isSelected} onValueChange={() => handleWeeklyCheckbox(index)} />
+              {
+                weeklyList.map((week, index) => (
+                  <View style={styles.DalignItem} key={index}>
+                    <CheckBox
+                      tintColors={options.checkboxColor}
+                      value={week.isSelected}
+                      onValueChange={() => handleWeeklyCheckbox(index)}
+                    />
                     <Text>{week.label}</Text>
-                  </View>)}
+                  </View>
+                ))
+              }
             </View>
-          </View>}
+          </View>
+        }
 
-        {meetingSchedule.recurrence.recurrence_type === "3" && <View style={styles.RecurrenceArea}>
+        {meetingSchedule.recurrence.recurrence_type === "3" &&
+          <View style={styles.RecurrenceArea}>
             <View>
               <Text style={styles.RepeatText}>Occurs on</Text>
             </View>
             <View>
               <View style={styles.MeetingTypeThreeOccurs}>
-                <RadioButton value="true" status={meetingSchedule.recurrence.isDayMonthly ? "checked" : "unchecked"} onPress={() => setMeetingSchedule({ ...meetingSchedule,
-              recurrence: { ...meetingSchedule.recurrence,
-                isDayMonthly: true
-              }
-            })} />
+                <RadioButton
+                  value="true"
+                  status={meetingSchedule.recurrence.isDayMonthly ? "checked" : "unchecked"}
+                  onPress={() => setMeetingSchedule({ ...meetingSchedule, recurrence: { ...meetingSchedule.recurrence, isDayMonthly: true } })}
+                />
                 <Text>Day </Text>
                 <View style={styles.Wp30}>
-                  <DropDownPicker zIndex={18} placeholderStyle={styles.DropDownPlaceholder} style={styles.DropDownPicker} open={openOccursOn} value={meetingSchedule.recurrence.dayOfMonth} items={occursOnList} setOpen={setOpenOccursOn} setValue={value => setMeetingSchedule({ ...meetingSchedule,
-                recurrence: { ...meetingSchedule.recurrence,
-                  dayOfMonth: value()
-                }
-              })} setItems={setOccursOnList} />
+                  <DropDownPicker
+                    zIndex={18}
+                    placeholderStyle={styles.DropDownPlaceholder}
+                    style={styles.DropDownPicker}
+                    open={openOccursOn}
+                    value={meetingSchedule.recurrence.dayOfMonth}
+                    items={occursOnList}
+                    setOpen={setOpenOccursOn}
+                    setValue={(value) => setMeetingSchedule({ ...meetingSchedule, recurrence: { ...meetingSchedule.recurrence, dayOfMonth: value() } })}
+                    setItems={setOccursOnList}
+                  />
                 </View>
                 <Text> of the month</Text>
               </View>
               <View style={styles.MeetingTypeThreeOccurs}>
-                <RadioButton value="false" status={!meetingSchedule.recurrence.isDayMonthly ? "checked" : "unchecked"} onPress={() => setMeetingSchedule({ ...meetingSchedule,
-              recurrence: { ...meetingSchedule.recurrence,
-                isDayMonthly: false
-              }
-            })} />
+                <RadioButton
+                  value="false"
+                  status={!meetingSchedule.recurrence.isDayMonthly ? "checked" : "unchecked"}
+                  onPress={() => setMeetingSchedule({ ...meetingSchedule, recurrence: { ...meetingSchedule.recurrence, isDayMonthly: false } })}
+                />
                 <View style={styles.DropDownContainer}>
-                  <DropDownPicker zIndex={17} disabled={meetingSchedule.recurrence.isDayMonthly} placeholderStyle={styles.DropDownPlaceholder} style={styles.DropDownPicker} open={openWeeks} value={meetingSchedule.recurrence.week} items={weeksList} setOpen={setOpenWeeks} setValue={value => setMeetingSchedule({ ...meetingSchedule,
-                recurrence: { ...meetingSchedule.recurrence,
-                  week: value()
-                }
-              })} setItems={setWeeksList} />
+                  <DropDownPicker
+                    zIndex={17}
+                    disabled={meetingSchedule.recurrence.isDayMonthly}
+                    placeholderStyle={styles.DropDownPlaceholder}
+                    style={styles.DropDownPicker}
+                    open={openWeeks}
+                    value={meetingSchedule.recurrence.week}
+                    items={weeksList}
+                    setOpen={setOpenWeeks}
+                    setValue={(value) => setMeetingSchedule({ ...meetingSchedule, recurrence: { ...meetingSchedule.recurrence, week: value() } })}
+                    setItems={setWeeksList}
+                  />
                 </View>
                 <View style={styles.Wp40}>
-                  <DropDownPicker zIndex={16} disabled={meetingSchedule.recurrence.isDayMonthly} placeholderStyle={styles.DropDownPlaceholder} style={styles.DropDownPicker} open={openDays} value={meetingSchedule.recurrence.day} items={daysList} setOpen={setOpenDays} setValue={value => setMeetingSchedule({ ...meetingSchedule,
-                recurrence: { ...meetingSchedule.recurrence,
-                  day: value()
-                }
-              })} setItems={setDaysList} />
+                  <DropDownPicker
+                    zIndex={16}
+                    disabled={meetingSchedule.recurrence.isDayMonthly}
+                    placeholderStyle={styles.DropDownPlaceholder}
+                    style={styles.DropDownPicker}
+                    open={openDays}
+                    value={meetingSchedule.recurrence.day}
+                    items={daysList}
+                    setOpen={setOpenDays}
+                    setValue={(value) => setMeetingSchedule({ ...meetingSchedule, recurrence: { ...meetingSchedule.recurrence, day: value() } })}
+                    setItems={setDaysList}
+                  />
                 </View>
               </View>
             </View>
-          </View>}
+          </View>
+        }
         {meetingSchedule.recurrence.recurrence_type !== "-1" && <>
           <View style={styles.Mt8}>
             <Text style={styles.EndText}>End date</Text>
@@ -181,46 +209,60 @@ const RecurringMeeting = ({
           <View style={styles.FlexCenter}>
             <View style={styles.EndDateText}>
               <View>
-                <RadioButton value="true" status={meetingSchedule.recurrence.isBy ? "checked" : "unchecked"} onPress={() => setMeetingSchedule({ ...meetingSchedule,
-                recurrence: { ...meetingSchedule.recurrence,
-                  isBy: true
-                }
-              })} />
+                <RadioButton
+                  value="true"
+                  status={meetingSchedule.recurrence.isBy ? "checked" : "unchecked"}
+                  onPress={() => setMeetingSchedule({ ...meetingSchedule, recurrence: { ...meetingSchedule.recurrence, isBy: true } })}
+                />
               </View>
               <View>
                 <Pressable style={styles.FlexCenter} onPress={() => setOpenEndDate(true)}>
                   <Text>By </Text>
-                  <Input editable={false} value={meetingSchedule.recurrence.endDate.toDateString()} />
+                  <Input
+                    editable={false}
+                    value={meetingSchedule.recurrence.endDate.toDateString()}
+                  />
                 </Pressable>
-                <DatePicker modal mode={"date"} open={openEndDate} date={meetingSchedule.recurrence.endDate} onConfirm={date => {
-                setOpenEndDate(false);
-                setMeetingSchedule({ ...meetingSchedule,
-                  recurrence: { ...meetingSchedule.recurrence,
-                    endDate: date
-                  }
-                });
-              }} onCancel={() => {
-                setOpenEndDate(false);
-              }} />
+                <DatePicker
+                  modal
+                  mode={"date"}
+                  open={openEndDate}
+                  date={meetingSchedule.recurrence.endDate}
+                  onConfirm={(date) => {
+                    setOpenEndDate(false);
+                    setMeetingSchedule({ ...meetingSchedule, recurrence: { ...meetingSchedule.recurrence, endDate: date } });
+                  }}
+                  onCancel={() => {
+                    setOpenEndDate(false);
+                  }}
+                />
               </View>
             </View>
 
             <View style={[styles.RadioButtonArea, styles.Mt10]}>
               <View>
-                <RadioButton value="false" status={!meetingSchedule.recurrence.isBy ? "checked" : "unchecked"} onPress={() => setMeetingSchedule({ ...meetingSchedule,
-                recurrence: { ...meetingSchedule.recurrence,
-                  isBy: false
-                }
-              })} />
+                <RadioButton
+                  value="false"
+                  status={!meetingSchedule.recurrence.isBy ? "checked" : "unchecked"}
+                  onPress={() => setMeetingSchedule({ ...meetingSchedule, recurrence: { ...meetingSchedule.recurrence, isBy: false } })}
+                />
               </View>
               <View>
                 <View style={styles.DisplayWidth}>
                   <Text>After </Text>
-                  <DropDownPicker zIndex={15} disabled={meetingSchedule.recurrence.isBy} placeholder='After' placeholderStyle={styles.DropDownPlaceholder} style={styles.DropDownPicker} open={openOccurrences} value={meetingSchedule.recurrence.occurrences} items={occurrencesList} setOpen={setOccurrences} setValue={value => setMeetingSchedule({ ...meetingSchedule,
-                  recurrence: { ...meetingSchedule.recurrence,
-                    occurrences: value()
-                  }
-                })} setItems={setOccurrencesList} />
+                  <DropDownPicker
+                    zIndex={15}
+                    disabled={meetingSchedule.recurrence.isBy}
+                    placeholder='After'
+                    placeholderStyle={styles.DropDownPlaceholder}
+                    style={styles.DropDownPicker}
+                    open={openOccurrences}
+                    value={meetingSchedule.recurrence.occurrences}
+                    items={occurrencesList}
+                    setOpen={setOccurrences}
+                    setValue={(value) => setMeetingSchedule({ ...meetingSchedule, recurrence: { ...meetingSchedule.recurrence, occurrences: value() } })}
+                    setItems={setOccurrencesList}
+                  />
                 </View>
               </View>
             </View>
@@ -228,7 +270,8 @@ const RecurringMeeting = ({
         </>}
 
       </>}
-    </Fragment>;
+    </Fragment>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -350,4 +393,5 @@ const styles = StyleSheet.create({
     marginLeft: 5
   }
 });
+
 export default RecurringMeeting;

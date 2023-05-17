@@ -8,43 +8,58 @@ import RecurringMeeting from "../RecurringMeeting";
 import MeetingTime from "../MeetingTime";
 import Actions from "../Actions";
 
-const MeetingScheduleModal = props => {
+const MeetingScheduleModal = (props) => {
   const [meetingSchedule, setMeetingSchedule] = useState(options.initialMeetingSchedule);
-  const [errors, setErrors] = useState({
-    topic: ""
-  });
+  const [errors, setErrors] = useState({ topic: "" });
 
   const handleSave = () => {
     if (meetingSchedule.topic === "") {
-      setErrors({ ...errors,
-        topic: "This field is required."
-      });
+      setErrors({ ...errors, topic: "This field is required." });
       return;
     }
-
     props.onHandleMeetingSchedule(meetingSchedule);
   };
 
   const meetingTopic = () => {
-    return <View style={styles.Mt10}>
-        <Input label="Meeting topic" errorMessage={errors.topic !== "" ? "This field is required." : ""} onChangeText={text => setMeetingSchedule({ ...meetingSchedule,
-        topic: text
-      })} />
-      </View>;
+    return (
+      <View style={styles.Mt10}>
+        <Input
+          label="Meeting topic"
+          errorMessage={(errors.topic !== "") ? "This field is required." : ""}
+          onChangeText={(text) => setMeetingSchedule({ ...meetingSchedule, topic: text })}
+        />
+      </View>
+    );
   };
 
-  const DATA = [{
-    data: [meetingTopic(), <MeetingTime key="MeetingTime" meetingSchedule={meetingSchedule} setMeetingSchedule={setMeetingSchedule} />, <RecurringMeeting key={"RecurringMeeting"} meetingSchedule={meetingSchedule} setMeetingSchedule={setMeetingSchedule} />, <MeetingID key={"MeetingID"} meetingSchedule={meetingSchedule} setMeetingSchedule={setMeetingSchedule} />, <Video key={"Video"} meetingSchedule={meetingSchedule} setMeetingSchedule={setMeetingSchedule} />, <Actions key={"Actions"} handleSave={handleSave} setModalVisible={props.setModalVisible} />]
-  }];
-  return <Modal presentationStyle='overFullScreen' animationType="slide" transparent={true} visible={true}>
+  const DATA = [
+    {
+      data: [meetingTopic(),
+        <MeetingTime key="MeetingTime" meetingSchedule={meetingSchedule} setMeetingSchedule={setMeetingSchedule} />,
+        <RecurringMeeting key={"RecurringMeeting"} meetingSchedule={meetingSchedule} setMeetingSchedule={setMeetingSchedule} />,
+        <MeetingID key={"MeetingID"} meetingSchedule={meetingSchedule} setMeetingSchedule={setMeetingSchedule} />,
+        <Video key={"Video"} meetingSchedule={meetingSchedule} setMeetingSchedule={setMeetingSchedule} />,
+        <Actions key={"Actions"} handleSave={handleSave} setModalVisible={props.setModalVisible} />]
+    }
+  ];
+
+  return (
+    <Modal
+      presentationStyle='overFullScreen'
+      animationType="slide"
+      transparent={true}
+      visible={true}
+    >
       <View style={styles.modalView}>
         <Text style={styles.heading}>Schedule Meeting</Text>
-        <SectionList sections={DATA} keyExtractor={(item, index) => index.toString()} renderItem={({
-        item,
-        index
-      }) => <Fragment key={index}>{item}</Fragment>} />
+        <SectionList
+          sections={DATA}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item, index }) => <Fragment key={index}>{item}</Fragment>}
+        />
       </View>
-    </Modal>;
+    </Modal>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -74,4 +89,5 @@ const styles = StyleSheet.create({
     marginTop: 10
   }
 });
+
 export default MeetingScheduleModal;
