@@ -1,26 +1,18 @@
 import React from "react";
 import { View, StyleSheet, Text, Pressable } from "react-native";
 
-const Actions = (props) => {
-  return (
-    <View style={styles.ActionsMain}>
-      <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => props.setModalVisible(false)}
-      >
+const Actions = props => {
+  return <View style={styles.ActionsMain}>
+      <Pressable style={[styles.button, styles.buttonOpen]} onPress={() => props.setModalVisible(false)}>
         <Text style={styles.textStyle}>Cancel</Text>
       </Pressable>
 
-      <Pressable
-        style={[styles.button, styles.buttonClose]}
-        onPress={props.handleSave}
-        disabled={props.isMeetingScheduleSave}
-      >
+      <Pressable style={[styles.button, styles.buttonClose]} onPress={props.handleSave} disabled={props.isMeetingScheduleSave}>
         <Text style={styles.textStyle}>{props.isMeetingScheduleSave ? "Saving" : "Save"}</Text>
       </Pressable>
-    </View>
-  );
+    </View>;
 };
+
 const styles = StyleSheet.create({
   ActionsMain: {
     display: "flex",
@@ -47,5 +39,4 @@ const styles = StyleSheet.create({
     textAlign: "center"
   }
 });
-
 export default Actions;

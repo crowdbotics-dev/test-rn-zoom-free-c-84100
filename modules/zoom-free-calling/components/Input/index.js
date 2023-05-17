@@ -1,20 +1,12 @@
 import React from "react";
 import { StyleSheet, TextInput, View, Text } from "react-native";
 
-const Input = (props) => {
-  return (
-    <View style={styles.Mt10}>
+const Input = props => {
+  return <View style={styles.Mt10}>
       {props.label && <Text style={styles.FwBold}>{props.label}</Text>}
-      <TextInput
-        style={[styles.input, styles.color]}
-        placeholder={props.label}
-        editable={props.editable}
-        value={props.value}
-        onChangeText={props.onChangeText}
-      />
-      { ("errorMessage" in props && props.errorMessage !== "") && <Text style={styles.inputError}>{props.errorMessage}</Text>}
-    </View>
-  );
+      <TextInput style={[styles.input, styles.color]} placeholder={props.label} editable={props.editable} value={props.value} onChangeText={props.onChangeText} />
+      {"errorMessage" in props && props.errorMessage !== "" && <Text style={styles.inputError}>{props.errorMessage}</Text>}
+    </View>;
 };
 
 const styles = StyleSheet.create({
@@ -41,5 +33,4 @@ const styles = StyleSheet.create({
     color: "#000000"
   }
 });
-
 export default Input;
