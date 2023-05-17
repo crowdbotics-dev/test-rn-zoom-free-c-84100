@@ -12,7 +12,6 @@
     "web:build": "./node_modules/.bin/webpack --config ./webpack.config.js --color --mode production"
   },
   "dependencies": {
-    "@modules/zoom-free-calling": "file:./modules/zoom-free-calling/",
     "@react-native-community/checkbox": "0.5.10",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-cookies/cookies": "6.0.11",
